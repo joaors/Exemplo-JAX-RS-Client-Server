@@ -1,0 +1,17 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <p:focus for="descricao"/>
+    <p:panelGrid id="pnDados"  columns="2" columnClasses="ui-grid-col-1, ui-grid-col-3" layout="grid">
+        <h:outputLabel value="Descrição"/>
+        <p:inputText id="descricao" value="#{atividadeController.selected.descricao}" required="true" styleClass="form-control"/>
+        
+    </p:panelGrid>
+    <div class="btns">
+        <p:commandButton action="#{atividadeController.salvar}" styleClass="btn btn-primary" value="Salvar" process="pnDados @this" update="@form"/>
+        <p:commandButton actionListener="#{atividadeController.voltar}" styleClass="btn btn-link" value="Voltar" update="@form" process="@this"/>        
+    </div>
+</ui:composition>

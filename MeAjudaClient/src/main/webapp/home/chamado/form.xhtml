@@ -1,0 +1,88 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+     <ui:define name="title">
+        <h:outputText value="Artefato - Cadastro"></h:outputText>
+    </ui:define>
+    
+    <p:panelGrid columns="2" columnClasses="ui-grid-col-1, ui-grid-col-3" layout="grid">
+        
+            <h:outputLabel value="Atendente Origem:"/>
+            <h:selectOneMenu value="#{chamadoController.selected.atendenteOrigem}"
+                            converter="#{usuarioConverter}" id="atendenteOrigem" styleClass="form-control">
+                <f:selectItems var="item" value="#{chamadoController.usuarios}"
+                               itemLabel="#{a.descricao}"
+                                itemValue="#{a}" />
+            </h:selectOneMenu>
+            
+            <h:outputLabel value="Atendente Destino:"/>
+            <h:selectOneMenu value="#{chamadoController.selected.atendenteDestino}"
+                            converter="#{usuarioConverter}" id="atendenteDestino" styleClass="form-control">
+                <f:selectItems var="item" value="#{chamadoController.usuarios}"
+                               itemLabel="#{i.descricao}"
+                                itemValue="#{i}" />
+            </h:selectOneMenu>
+            
+            
+            <h:outputLabel value="Cliente:"/>
+            <h:selectOneMenu value="#{chamadoController.selected.cliente}"
+                            converter="#{clienteConverter}" id="cliente" styleClass="form-control">
+                <f:selectItems var="item" value="#{chamadoController.clientes}"
+                               itemLabel="#{b.descricao}"
+                                itemValue="#{b}" />
+            </h:selectOneMenu>
+            
+            <h:outputLabel value="Artefato:"/>
+            <h:selectOneMenu value="#{chamadoController.selected.artefato}"
+                            converter="#{artefatoConverter}" id="artefato" styleClass="form-control">
+                <f:selectItems var="item" value="#{chamadoController.artefatos}"
+                               itemLabel="#{e.nome}"
+                                itemValue="#{e}" />
+            </h:selectOneMenu>            
+
+            <h:outputLabel value="Descricao?"/>
+            <p:inputText value="#{chamadoController.selected.descricao}" styleClass="form-control"/>
+        
+    </p:panelGrid>
+    
+        <br/>
+        <br/>
+        <p:dataTable id="tabelaAtendimentos" value="#{chamadoController.selected.atendimentos}" var="a"                  
+                 paginatorPosition="bottom" rowKey="#{a.id}" paginator="true" 
+                 rows="10" rowsPerPageTemplate="10,20,30,40,50"
+                paginatorTemplate="{PageLinks} {RowsPerPageDropdown}">
+
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="Origem"/>
+                </f:facet>
+                <h:outputText value="#{a.atendenteOrigem.descricao}"/>
+            </p:column>               
+
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="Destino"/>
+                </f:facet>
+                <h:outputText value="#{a.atendenteDestino.descricao}"/>
+            </p:column>               
+
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="Descrição"/>
+                </f:facet>
+                <h:outputText value="#{a.descricao}"/>
+            </p:column>               
+        
+        </p:dataTable>    
+    
+   
+    <div class="btns">
+        <p:commandButton action="#{chamadoController.prepareAtendimento()}" styleClass="btn btn-success" value="Ad. Atendimento" process="@form" 
+                         immediate="true" update=":form:tabelaAtendimentos"/>        
+        <p:commandButton action="#{chamadoController.salvar}" styleClass="btn btn-primary" value="Salvar" process="@form" update="@form"/>
+        <p:commandButton actionListener="#{chamadoController.voltar}" styleClass="btn btn-link" value="Voltar" update="@form" process="@this"/>        
+    </div>
+</ui:composition>

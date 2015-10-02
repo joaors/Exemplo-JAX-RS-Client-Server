@@ -1,0 +1,40 @@
+<ui:composition template="/template.xhtml"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"      
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="title">
+        <h:outputText value="Artefato"></h:outputText>
+    </ui:define>
+    <ui:define name="caminho"><h:outputText value="Cadastro - Chamado"></h:outputText></ui:define>     
+
+    <ui:define name="body">
+        <h:form id="form">
+            <h:panelGroup rendered="#{empty chamadoController.selected}"><ui:include src="list.xhtml"/></h:panelGroup>
+            <h:panelGroup rendered="#{!empty chamadoController.selected}"><ui:include src="form.xhtml"/></h:panelGroup>         
+            
+        </h:form>
+            <p:dialog header="Atendimento" widgetVar="dlg" modal="true" width="400px" id="dlg">
+                <h:form id="formAtendimento" prependId="false">
+                    <h:outputLabel value="Atendente Destino:"/>
+                    <h:selectOneMenu value="#{chamadoController.atendimento.atendenteDestino}"
+                                    converter="#{usuarioConverter}" styleClass="form-control">
+                        <f:selectItems var="item" value="#{chamadoController.usuarios}"
+                                       itemLabel="#{item.descricao}"
+                                        itemValue="#{item}" />
+                    </h:selectOneMenu>
+
+                    <h:outputLabel value="Descrição Atendimento:"/>
+                    <p:inputTextarea cols="30" rows="10" styleClass="form-control" value="#{chamadoController.atendimento.descricao}"/>
+
+                    <div class="btns">
+                        <p:commandButton actionListener="#{chamadoController.adicionaAtendimento()}" value="Adicionar" process="@form" update=":form:tabelaAtendimentos"/>
+                        <p:commandButton actionListener="#{chamadoController.closeDialog()}" value="Voltar" process="@this"/>
+                    </div>          
+                </h:form>    
+            </p:dialog>             
+
+    </ui:define>
+</ui:composition>
